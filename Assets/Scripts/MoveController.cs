@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
-public class PlayerMoveController : MonoBehaviour
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
+public class MoveController : MonoBehaviour
 {
     public Vector2 MoveVector
     {
@@ -8,7 +11,7 @@ public class PlayerMoveController : MonoBehaviour
         set
         {
             moveVector = value;
-            UpdateMoveAnimParams();
+            //UpdateMoveAnimParams();
             CheckForFlip();
         }
     }
@@ -24,22 +27,38 @@ public class PlayerMoveController : MonoBehaviour
     private readonly int horizontalAnimParam = Animator.StringToHash("horizontal");
     private readonly int isMovingAnimParam = Animator.StringToHash("isMoving");
 
-    private void Start()
+    private float xInput = 0, yInput = 0;
+
+    protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
 
-    private void Update()
+    protected void Update()
     {
-        var xInput = Input.GetAxisRaw("Horizontal");
-        var yInput = Input.GetAxisRaw("Vertical");
+        UpdateMoveVector();
+    }
 
+    /// <summary>
+    /// A setter to allow Character classes to set the move input
+    /// </summary>
+    public void SetMoveInput(float x, float y)
+    {
+        xInput = x;
+        yInput = y;
+    }
+
+    /// <summary>
+    /// Sets the Vector2 MoveVector based off of the latest xInput and yInput
+    /// </summary>
+    private void UpdateMoveVector()
+    {
         MoveVector = new Vector2(xInput, yInput);
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         rb.MovePosition(rb.position + MoveVector * moveSpeed * Time.fixedDeltaTime);
     }
@@ -65,5 +84,4 @@ public class PlayerMoveController : MonoBehaviour
         animator.SetFloat(verticalAnimParam, MoveVector.y);
         animator.SetBool(isMovingAnimParam, MoveVector.sqrMagnitude > 0);
     }
-
 }
