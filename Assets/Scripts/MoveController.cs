@@ -11,7 +11,7 @@ public class MoveController : MonoBehaviour
         set
         {
             moveVector = value;
-            //UpdateMoveAnimParams();
+            UpdateMoveAnimParams();
             CheckForFlip();
         }
     }
