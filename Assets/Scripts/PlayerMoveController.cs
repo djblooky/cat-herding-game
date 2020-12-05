@@ -7,23 +7,28 @@ public class PlayerMoveController : MonoBehaviour
         get { return moveVector; }
         set
         {
-            //update animation state
             moveVector = value;
+            UpdateMoveAnimParams();
             CheckForFlip();
         }
     }
 
-    [Header("Customizable properties")]
     [SerializeField] private float moveSpeed = 3f;
 
-    private Rigidbody2D rigidbody;
+    private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private Vector2 moveVector;
+    private Animator animator;
+
+    private readonly int verticalAnimParam = Animator.StringToHash("vertical");
+    private readonly int horizontalAnimParam = Animator.StringToHash("horizontal");
+    private readonly int isMovingAnimParam = Animator.StringToHash("isMoving");
 
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -36,9 +41,12 @@ public class PlayerMoveController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigidbody.MovePosition(rigidbody.position + MoveVector * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + MoveVector * moveSpeed * Time.fixedDeltaTime);
     }
 
+    /// <summary>
+    /// Flips the sprite on the X Axis if it is moving left, because the horizontal sprite faces right by default
+    /// </summary>
     private void CheckForFlip()
     {
         if (MoveVector.x == -1)
@@ -49,6 +57,13 @@ public class PlayerMoveController : MonoBehaviour
         {
             spriteRenderer.flipX = false;
         }
+    }
+
+    private void UpdateMoveAnimParams()
+    {
+        animator.SetFloat(horizontalAnimParam, MoveVector.x);
+        animator.SetFloat(verticalAnimParam, MoveVector.y);
+        animator.SetBool(isMovingAnimParam, MoveVector.sqrMagnitude > 0);
     }
 
 }
