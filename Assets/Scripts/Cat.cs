@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(MoveController))]
 public class Cat : MonoBehaviour
 {
     [Tooltip("The minimum distance from the player where the cat will begin to flee")]
-    [SerializeField] private float fleeRadius;
-   
-    private CircleCollider2D collider;
+    [SerializeField] private float fleeRadius = 1f;
+    [SerializeField] private float fleeDuration = 1f;
+
+    private new CircleCollider2D collider;
     private MoveController playerMoveController;
     private MoveController moveController;
 
@@ -49,15 +51,19 @@ public class Cat : MonoBehaviour
     {
         if (isNearPlayer)
         {
-            //Debug.Log("Player is near cat");
             float xInput = playerMoveController.MoveVector.x;
-            float yInput = playerMoveController.MoveVector.y; 
+            float yInput = playerMoveController.MoveVector.y;
 
             moveController.SetMoveInput(xInput, yInput);
+           
+            //StopAllCoroutines();
+            StartCoroutine(FleeForDuration());
         }
-        else
-        {
-            moveController.SetMoveInput(0, 0);
-        }
+    }
+
+    private IEnumerator FleeForDuration()
+    {
+        yield return new WaitForSeconds(fleeDuration);
+        moveController.SetMoveInput(0, 0);
     }
 }

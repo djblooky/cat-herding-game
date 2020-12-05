@@ -368,7 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b943c4caefac2a46a0d996e45c78742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fleeRadius: 2
+  fleeRadius: 1
+  fleeDuration: 1
 --- !u!95 &1166685027
 Animator:
   serializedVersion: 3
@@ -379,7 +380,7 @@ Animator:
   m_GameObject: {fileID: 1166685022}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 996c34d0bd65b8d42a2485844ab211c1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
