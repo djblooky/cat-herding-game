@@ -18,16 +18,19 @@ public class MoveController : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 3f;
 
+    // Components
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-    private Vector2 moveVector;
     private Animator animator;
 
+    // Reference variable to access the parameters in the Animator\
     private readonly int verticalAnimParam = Animator.StringToHash("vertical");
     private readonly int horizontalAnimParam = Animator.StringToHash("horizontal");
     private readonly int isMovingAnimParam = Animator.StringToHash("isMoving");
 
+    // Move input variables
     private float xInput = 0, yInput = 0;
+    private Vector2 moveVector; //do not use, instead use capital MoveVector
 
     protected void Start()
     {
@@ -42,7 +45,7 @@ public class MoveController : MonoBehaviour
     }
 
     /// <summary>
-    /// A setter to allow Character classes to set the move input
+    /// A setter to allow Character classes to set the move input (xInput and yInput)
     /// </summary>
     public void SetMoveInput(float x, float y)
     {

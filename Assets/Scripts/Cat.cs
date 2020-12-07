@@ -45,7 +45,7 @@ public class Cat : MonoBehaviour
     }
 
     /// <summary>
-    /// If the cat is near the player, it will update the move input to be opposite the player's to flee
+    /// If the cat is near the player, its move input will be set to the same direction as the player's to flee
     /// </summary>
     protected void FleeIfNearPlayer()
     {
@@ -55,12 +55,14 @@ public class Cat : MonoBehaviour
             float yInput = playerMoveController.MoveVector.y;
 
             moveController.SetMoveInput(xInput, yInput);
-           
-            //StopAllCoroutines();
+
             StartCoroutine(FleeForDuration());
         }
     }
 
+    /// <summary>
+    /// Waits for fleeDuration seconds before resetting the cat's move input to stop it from fleeing
+    /// </summary>
     private IEnumerator FleeForDuration()
     {
         yield return new WaitForSeconds(fleeDuration);
