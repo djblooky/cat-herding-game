@@ -45,6 +45,9 @@ TagManager:
   - name: Ground
     uniqueID: 1542441127
     locked: 0
+  - name: Goal
+    uniqueID: 2092135143
+    locked: 0
   - name: Player
     uniqueID: 3529844497
     locked: 0

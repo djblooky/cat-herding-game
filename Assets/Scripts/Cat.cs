@@ -1,47 +1,32 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(CircleCollider2D))]
+//[RequireComponent(typeof(CircleCollider2D))]
 [RequireComponent(typeof(MoveController))]
 public class Cat : MonoBehaviour
 {
+    public bool isNearPlayer { get; set; } = false;
+    public MoveController playerMoveController;
+
     [Tooltip("The minimum distance from the player where the cat will begin to flee")]
-    [SerializeField] private float fleeRadius = 1f;
+    [SerializeField] private float sightRadius = 1f;
     [SerializeField] private float fleeDuration = 1f;
 
-    private new CircleCollider2D collider;
-    private MoveController playerMoveController;
+    private CircleCollider2D sightCollider;
     private MoveController moveController;
-
-    private bool isNearPlayer = false;
+    private bool canMove = true;
 
     protected void Start()
     {
         moveController = GetComponent<MoveController>();
-        collider = GetComponent<CircleCollider2D>();
-        collider.radius = fleeRadius;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            isNearPlayer = true;
-            playerMoveController = collision.GetComponent<MoveController>();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            isNearPlayer = false;
-        }
+        sightCollider = GetComponentInChildren<CircleCollider2D>();
+        sightCollider.radius = sightRadius;
     }
 
     private void Update()
     {
-        FleeIfNearPlayer();
+        if (canMove)
+            FleeIfNearPlayer();
     }
 
     /// <summary>
@@ -67,5 +52,12 @@ public class Cat : MonoBehaviour
     {
         yield return new WaitForSeconds(fleeDuration);
         moveController.SetMoveInput(0, 0);
+    }
+
+    public void GoalTriggered()
+    {
+        canMove = false;
+        moveController.SetMoveInput(0, 0);
+        StopAllCoroutines();
     }
 }
