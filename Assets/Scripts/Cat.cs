@@ -21,14 +21,13 @@ public class Cat : MonoBehaviour
     [SerializeField] private GameObject TopRightBorder;
     [SerializeField] private GameObject BottomLeftBorder;
     [SerializeField] private GameObject BottomRightBorder;
-    private 
-
-    bool HasInteractedWithPlayer = false;
-    bool ReadyToMoveAgain = true;
-    bool JustHitTop = false;
-    bool JustHitBottom = false;
-    bool JustHitLeft = false;
-    bool JustHitRight = false;
+    
+    private bool HasInteractedWithPlayer = false;
+    private bool ReadyToMoveAgain = true;
+    private bool JustHitTop = false;
+    private bool JustHitBottom = false;
+    private bool JustHitLeft = false;
+    private bool JustHitRight = false;
 
     protected void Start()
     {
@@ -48,9 +47,6 @@ public class Cat : MonoBehaviour
 
         if (!ReadyToMoveAgain && !HasInteractedWithPlayer && canMove)
             BoundChecker();
-
-
-
     }
 
     /// <summary>
@@ -134,7 +130,7 @@ public class Cat : MonoBehaviour
         if (gameObject.transform.position.x >= TopRightBorder.transform.position.x || gameObject.transform.position.x >= BottomRightBorder.transform.position.x)
         {
             moveController.SetMoveInput(0, 0);
-            gameObject.transform.Translate(new Vector2(-0.01f,0));
+            gameObject.transform.Translate(new Vector2(-0.01f, 0));
             //Invoke("ResetWalker", fleeDuration);
             StopAfterShortTime();
             JustHitRight = true;
