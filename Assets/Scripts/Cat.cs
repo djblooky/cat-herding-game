@@ -16,6 +16,20 @@ public class Cat : MonoBehaviour
     private MoveController moveController;
     private bool canMove = true;
 
+    //Dwight Code Zone // For The borders of the cat movement zone
+    [SerializeField] private GameObject TopLeftBorder;
+    [SerializeField] private GameObject TopRightBorder;
+    [SerializeField] private GameObject BottomLeftBorder;
+    [SerializeField] private GameObject BottomRightBorder;
+    private 
+
+    bool HasInteractedWithPlayer = false;
+    bool ReadyToMoveAgain = true;
+    bool JustHitTop = false;
+    bool JustHitBottom = false;
+    bool JustHitLeft = false;
+    bool JustHitRight = false;
+
     protected void Start()
     {
         moveController = GetComponent<MoveController>();
@@ -25,8 +39,18 @@ public class Cat : MonoBehaviour
 
     private void Update()
     {
+
+        if (!HasInteractedWithPlayer && ReadyToMoveAgain && canMove) // Dwight
+            WalkAround();
+
         if (canMove)
             FleeIfNearPlayer();
+
+        if (!ReadyToMoveAgain && !HasInteractedWithPlayer && canMove)
+            BoundChecker();
+
+
+
     }
 
     /// <summary>
@@ -36,8 +60,14 @@ public class Cat : MonoBehaviour
     {
         if (isNearPlayer)
         {
+
+            moveController.SetMoveInput(0, 0);
+            moveController.moveSpeed = 3f;
+
             float xInput = playerMoveController.MoveVector.x;
             float yInput = playerMoveController.MoveVector.y;
+
+            HasInteractedWithPlayer = true; // Dwight
 
             moveController.SetMoveInput(xInput, yInput);
 
@@ -57,7 +87,99 @@ public class Cat : MonoBehaviour
     public void GoalTriggered()
     {
         canMove = false;
-        moveController.SetMoveInput(0, 0);
+        //moveController.SetMoveInput(0, 0);
+        Invoke("StopAfterShortTime", .5f);
         StopAllCoroutines();
     }
+
+    public void WalkAround() // Dwight
+    {
+
+        ReadyToMoveAgain = false;
+
+        int RandX = Random.Range(-1, 2);
+        int RandY = Random.Range(-1, 2);
+
+        if (!JustHitBottom && !JustHitTop && !JustHitRight && !JustHitLeft)
+            Invoke("StopAfterShortTime", 1.5f);
+
+        if (JustHitRight)
+        {
+            RandX = -1;
+            JustHitRight = false;
+        }
+        if (JustHitLeft)
+        {
+            RandX = 1;
+            JustHitLeft = false;
+        }
+        if (JustHitTop)
+        {
+            RandY = -1;
+            JustHitTop = false;
+        }
+        if (JustHitBottom)
+        {
+            RandY = 1;
+            JustHitBottom = false;
+        }
+
+        moveController.SetMoveInput(RandX, RandY);
+
+    }
+
+    public void BoundChecker()
+    {
+
+        if (gameObject.transform.position.x >= TopRightBorder.transform.position.x || gameObject.transform.position.x >= BottomRightBorder.transform.position.x)
+        {
+            moveController.SetMoveInput(0, 0);
+            gameObject.transform.Translate(new Vector2(-0.01f,0));
+            //Invoke("ResetWalker", fleeDuration);
+            StopAfterShortTime();
+            JustHitRight = true;
+        }
+        if (gameObject.transform.position.x <= TopLeftBorder.transform.position.x || gameObject.transform.position.x <= BottomLeftBorder.transform.position.x)
+        {
+            moveController.SetMoveInput(0, 0);
+            gameObject.transform.Translate(new Vector2(0.01f, 0));
+            //Invoke("ResetWalker", fleeDuration);
+            StopAfterShortTime();
+            JustHitLeft = true;
+        }
+        if (gameObject.transform.position.y >= TopRightBorder.transform.position.y || gameObject.transform.position.y >= TopLeftBorder.transform.position.y)
+        {
+            moveController.SetMoveInput(0, 0);
+            gameObject.transform.Translate(new Vector2(0, -0.01f));
+            //Invoke("ResetWalker", fleeDuration);
+            StopAfterShortTime();
+            JustHitTop = true;
+        }
+        if (gameObject.transform.position.y <= BottomRightBorder.transform.position.y || gameObject.transform.position.y <= BottomLeftBorder.transform.position.y)
+        {
+            moveController.SetMoveInput(0, 0);
+            gameObject.transform.Translate(new Vector2(0, 0.01f));
+            //Invoke("ResetWalker", fleeDuration);
+            StopAfterShortTime();
+            JustHitBottom = true;
+        }
+
+    }
+
+    public void ResetWalker()
+    {
+
+        ReadyToMoveAgain = true;
+
+    }
+
+    public void StopAfterShortTime()
+    {
+
+        moveController.SetMoveInput(0, 0);
+        Invoke("ResetWalker", 5f);
+        //ResetWalker();
+
+    }
+
 }

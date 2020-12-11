@@ -16,7 +16,7 @@ public class MoveController : MonoBehaviour
         }
     }
 
-    [SerializeField] private float moveSpeed = 3f;
+    public float moveSpeed = 1f;
 
     // Components
     private Rigidbody2D rb;

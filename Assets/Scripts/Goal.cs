@@ -10,6 +10,7 @@ public class Goal : MonoBehaviour
         if (collision.CompareTag("Cat"))
         {
             Debug.Log("cat collided");
+            collision.tag += "Done";
             collision.GetComponent<Cat>().GoalTriggered();
             GoalTriggered?.Invoke();
         }
