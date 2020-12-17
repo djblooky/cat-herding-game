@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4585616286786856438}
   - component: {fileID: 4585616286786856439}
   - component: {fileID: 4585616286786856432}
-  - component: {fileID: 9125027985072130059}
+  - component: {fileID: 6944358862633334240}
   m_Layer: 0
   m_Name: Cat
   m_TagString: Cat
@@ -141,8 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMoveController: {fileID: 0}
-  sightRadius: 1
+  sightRadius: 1.5
   fleeDuration: 1
+  sightCollider: {fileID: 7703211232063038218}
   TopLeftBorder: {fileID: 0}
   TopRightBorder: {fileID: 0}
   BottomLeftBorder: {fileID: 0}
@@ -160,8 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
---- !u!61 &9125027985072130059
-BoxCollider2D:
+--- !u!58 &6944358862633334240
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -173,19 +174,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.026899219, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.6875, y: 0.90625}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: -0.2}
   serializedVersion: 2
-  m_Size: {x: 0.62907434, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.2
 --- !u!1 &6947173390755869771
 GameObject:
   m_ObjectHideFlags: 0
