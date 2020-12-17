@@ -12,6 +12,7 @@ public class Cat : MonoBehaviour
     [SerializeField] private float sightRadius = 1f;
     [SerializeField] private float fleeDuration = 1f;
 
+    [SerializeField]
     private CircleCollider2D sightCollider;
     private MoveController moveController;
     private bool canMove = true;
@@ -32,7 +33,6 @@ public class Cat : MonoBehaviour
     protected void Start()
     {
         moveController = GetComponent<MoveController>();
-        sightCollider = GetComponentInChildren<CircleCollider2D>();
         sightCollider.radius = sightRadius;
     }
 
@@ -56,12 +56,15 @@ public class Cat : MonoBehaviour
     {
         if (isNearPlayer)
         {
-
-            moveController.SetMoveInput(0, 0);
+            //moveController.SetMoveInput(0, 0);
             moveController.moveSpeed = 3f;
 
-            float xInput = playerMoveController.MoveVector.x;
-            float yInput = playerMoveController.MoveVector.y;
+            Vector2 towards = transform.position - playerMoveController.gameObject.transform.position;
+
+            float xInput = towards.x;
+            float yInput = towards.y;
+            //float xInput = playerMoveController.MoveVector.x;
+            //float yInput = playerMoveController.MoveVector.y;
 
             HasInteractedWithPlayer = true; // Dwight
 
