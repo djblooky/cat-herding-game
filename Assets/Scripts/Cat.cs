@@ -73,7 +73,7 @@ public class Cat : MonoBehaviour
         if (isNearPlayer)
         {
             //moveController.SetMoveInput(0, 0);
-            moveController.moveSpeed = 3f;
+            moveController.moveSpeed = playerMoveController.moveSpeed + 1;
 
             Vector2 towards = transform.position - playerMoveController.transform.position;
 

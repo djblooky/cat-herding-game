@@ -54423,7 +54423,7 @@ PrefabInstance:
     - target: {fileID: 2162777138204325108, guid: 709f3e144025add429f198b13eef3ccc,
         type: 3}
       propertyPath: moveSpeed
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3289720334970724833, guid: 709f3e144025add429f198b13eef3ccc,
         type: 3}
@@ -54444,7 +54444,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8602594547265710319, guid: ded6c79ac273c2e4a83b36edb6a47e22,
+      objectReference: {fileID: -3324700999157443747, guid: 0e356456c2f44ec4dba2885810f70107,
         type: 3}
     - target: {fileID: 8163111170984842214, guid: 709f3e144025add429f198b13eef3ccc,
         type: 3}
