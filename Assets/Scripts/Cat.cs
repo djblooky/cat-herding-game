@@ -11,18 +11,20 @@ public class Cat : MonoBehaviour
     [Tooltip("The minimum distance from the player where the cat will begin to flee")]
     [SerializeField] private float sightRadius = 1f;
     [SerializeField] private float fleeDuration = 1f;
+    [SerializeField] private AudioClip noticeSound, catInPenSound;
 
     [SerializeField]
     private CircleCollider2D sightCollider;
     private MoveController moveController;
     private bool canMove = true;
+    private AudioSource audioSource;
 
     //Dwight Code Zone // For The borders of the cat movement zone
     [SerializeField] private GameObject TopLeftBorder;
     [SerializeField] private GameObject TopRightBorder;
     [SerializeField] private GameObject BottomLeftBorder;
     [SerializeField] private GameObject BottomRightBorder;
-    
+
     private bool HasInteractedWithPlayer = false;
     private bool ReadyToMoveAgain = true;
     private bool JustHitTop = false;
@@ -32,6 +34,7 @@ public class Cat : MonoBehaviour
 
     protected void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         moveController = GetComponent<MoveController>();
         sightCollider.radius = sightRadius;
     }
@@ -79,12 +82,14 @@ public class Cat : MonoBehaviour
     /// </summary>
     private IEnumerator FleeForDuration()
     {
+        audioSource.PlayOneShot(noticeSound);
         yield return new WaitForSeconds(fleeDuration);
         moveController.SetMoveInput(0, 0);
     }
 
     public void GoalTriggered()
     {
+        audioSource.PlayOneShot(catInPenSound);
         canMove = false;
         //moveController.SetMoveInput(0, 0);
         Invoke("StopAfterShortTime", .5f);
