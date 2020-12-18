@@ -23,6 +23,7 @@ public class SightCollider : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             cat.isNearPlayer = false;
+            cat.canMove = true;
         }
     }
 }

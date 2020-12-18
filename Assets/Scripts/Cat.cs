@@ -16,7 +16,7 @@ public class Cat : MonoBehaviour
     [SerializeField]
     private CircleCollider2D sightCollider;
     private MoveController moveController;
-    private bool canMove = true;
+    public bool canMove = true;
     private AudioSource audioSource;
 
     //Dwight Code Zone // For The borders of the cat movement zone
@@ -45,11 +45,23 @@ public class Cat : MonoBehaviour
         if (!HasInteractedWithPlayer && ReadyToMoveAgain && canMove) // Dwight
             WalkAround();
 
+        CheckIfStuck();
         if (canMove)
             FleeIfNearPlayer();
 
         if (!ReadyToMoveAgain && !HasInteractedWithPlayer && canMove)
             BoundChecker();
+    }
+
+    private void CheckIfStuck()
+    {
+        if (isNearPlayer && playerMoveController != null)
+        {
+            if (Vector2.Distance(transform.position, playerMoveController.transform.position) < sightRadius - 0.5)
+            {
+                canMove = false;
+            }
+        }
     }
 
     /// <summary>
@@ -62,7 +74,7 @@ public class Cat : MonoBehaviour
             //moveController.SetMoveInput(0, 0);
             moveController.moveSpeed = 3f;
 
-            Vector2 towards = transform.position - playerMoveController.gameObject.transform.position;
+            Vector2 towards = transform.position - playerMoveController.transform.position;
 
             float xInput = towards.x;
             float yInput = towards.y;

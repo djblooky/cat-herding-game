@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         {
             audioSource.Play();
         }
-        
+
     }
 
     protected void Move()
