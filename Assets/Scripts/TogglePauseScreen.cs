@@ -29,7 +29,7 @@ public class TogglePauseScreen : MonoBehaviour
         }
     }
 
-    private void Pause()
+    public void Pause()
     {
         inPauseMenu = true;
         Time.timeScale = 0;
@@ -38,7 +38,7 @@ public class TogglePauseScreen : MonoBehaviour
         canvasGroup.interactable = true;
     }
 
-    private void Unpause()
+    public void Unpause()
     {
         inPauseMenu = false;
         Time.timeScale = 1;
