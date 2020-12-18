@@ -18,6 +18,7 @@ public class Cat : MonoBehaviour
     private MoveController moveController;
     public bool canMove = true;
     private AudioSource audioSource;
+    private bool meowed = false;
 
     //Dwight Code Zone // For The borders of the cat movement zone
     [SerializeField] private GameObject TopLeftBorder;
@@ -86,6 +87,10 @@ public class Cat : MonoBehaviour
             moveController.SetMoveInput(xInput, yInput);
 
             StartCoroutine(FleeForDuration());
+
+            if (!meowed)
+                StartCoroutine(MeowOnce());
+
         }
     }
 
@@ -94,9 +99,16 @@ public class Cat : MonoBehaviour
     /// </summary>
     private IEnumerator FleeForDuration()
     {
-        audioSource.PlayOneShot(noticeSound);
         yield return new WaitForSeconds(fleeDuration);
         moveController.SetMoveInput(0, 0);
+    }
+
+    private IEnumerator MeowOnce()
+    {
+        meowed = true;
+        audioSource.PlayOneShot(noticeSound);
+        yield return new WaitForSeconds(fleeDuration);
+        meowed = false;
     }
 
     public void GoalTriggered()
